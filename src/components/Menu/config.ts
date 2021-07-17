@@ -20,11 +20,11 @@ const config: MenuEntry[] = [
       },
       {
         label: 'Swap OLD',
-        href: 'https://app.zoneswap.org/swap',
+        href: 'https://app.zoneswap.org/#/swap',
       },
       {
         label: 'Liquidity OLD',
-        href: 'https://app.zoneswap.org/pool',
+        href: 'https://app.zoneswap.org/#/pool',
       },
     ],
   },
