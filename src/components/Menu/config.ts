@@ -71,6 +71,8 @@ const config: MenuEntry[] = [
         label: 'Github',
         href: 'https://github.com/zoneswap/',
       },
+    ],
+  },
 ]
 
 export default config
