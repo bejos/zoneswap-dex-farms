@@ -48,8 +48,8 @@ const Ifo = () => {
           <Title as="h2">{TranslateString(592, 'How to take part')}</Title>
           <Heading mb="16px">{TranslateString(594, 'Before Sale')}:</Heading>
           <List>
-            <li>{TranslateString(596, 'Buy CAKE and CORE tokens')}</li>
-            <li>{TranslateString(598, 'Get CAKE-CORE LP tokens by adding CAKE and CORE liquidity')}</li>
+            <li>{TranslateString(596, 'Buy CAKE and BNB tokens')}</li>
+            <li>{TranslateString(598, 'Get CAKE-BNB LP tokens by adding CAKE and BNB liquidity')}</li>
           </List>
           <Flex mb="16px">
             <LinkExternal href="https://exchange.pancakeswap.finance/#/swap" mr="16px">
@@ -85,7 +85,7 @@ const Ifo = () => {
             <Text mb={3}>
               {TranslateString(
                 514,
-                'Launch your project with PancakeSwap, Binance Smart Chain’s most-used AMM project and liquidity provider, to bring your token directly to the most active and rapidly growing community on CORE.',
+                'Launch your project with PancakeSwap, Binance Smart Chain’s most-used AMM project and liquidity provider, to bring your token directly to the most active and rapidly growing community on BSC.',
               )}
             </Text>
             <Button

@@ -83,19 +83,19 @@ interface FarmCardProps {
   farm: FarmWithStakedValue
   removed: boolean
   cakePrice?: BigNumber
-  corePrice?: BigNumber
+  bnbPrice?: BigNumber
   ethereum?: provider
   account?: string
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, corePrice, ethereum, account }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethereum, account }) => {
   const TranslateString = useI18n()
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
   // const isCommunityFarm = communityFarms.includes(farm.tokenSymbol)
-  // We assume the token name is coin pair + lp e.g. CAKE-CORE LP, LINK-CORE LP,
-  // NAR-CAKE LP. The images should be cake-core.svg, link-core.svg, nar-cake.svg
+  // We assume the token name is coin pair + lp e.g. CAKE-BNB LP, LINK-BNB LP,
+  // NAR-CAKE LP. The images should be cake-bnb.svg, link-bnb.svg, nar-cake.svg
   // const farmImage = farm.lpSymbol.split(' ')[0].toLocaleLowerCase()
   const farmImage = farm.isTokenOnly ? farm.tokenSymbol.toLowerCase() : `${farm.tokenSymbol.toLowerCase()}-${farm.quoteTokenSymbol.toLowerCase()}`
 
@@ -103,14 +103,14 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, corePrice
     if (!farm.lpTotalInQuoteToken) {
       return null
     }
-    if (farm.quoteTokenSymbol === QuoteToken.CORE) {
-      return corePrice.times(farm.lpTotalInQuoteToken)
+    if (farm.quoteTokenSymbol === QuoteToken.BNB) {
+      return bnbPrice.times(farm.lpTotalInQuoteToken)
     }
     if (farm.quoteTokenSymbol === QuoteToken.CAKE) {
       return cakePrice.times(farm.lpTotalInQuoteToken)
     }
     return farm.lpTotalInQuoteToken
-  }, [corePrice, cakePrice, farm.lpTotalInQuoteToken, farm.quoteTokenSymbol])
+  }, [bnbPrice, cakePrice, farm.lpTotalInQuoteToken, farm.quoteTokenSymbol])
 
   const totalValueFormated = totalValue
     ? `$${Number(totalValue).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
@@ -176,11 +176,11 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, corePrice
         <DetailsSection
           removed={removed}
           isTokenOnly={farm.isTokenOnly}
-          coreScanAddress={
+          bscScanAddress={
             farm.isTokenOnly ?
-              `https://scan.coredao.org/token/${farm.tokenAddresses[process.env.REACT_APP_CHAIN_ID]}`
+              `https://bscscan.com/token/${farm.tokenAddresses[process.env.REACT_APP_CHAIN_ID]}`
               :
-              `https://scan.coredao.org/token/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]}`
+              `https://bscscan.com/token/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]}`
           }
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}

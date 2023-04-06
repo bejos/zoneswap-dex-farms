@@ -25,7 +25,7 @@ export const sousStake = async (sousChefContract, amount, account) => {
     })
 }
 
-export const sousStakeCore = async (sousChefContract, amount, account) => {
+export const sousStakeBnb = async (sousChefContract, amount, account) => {
   return sousChefContract.methods
     .deposit()
     .send({ from: account, value: new BigNumber(amount).times(new BigNumber(10).pow(18)).toString() })
@@ -96,7 +96,7 @@ export const soushHarvest = async (sousChefContract, account) => {
     })
 }
 
-export const soushHarvestCore = async (sousChefContract, account) => {
+export const soushHarvestBnb = async (sousChefContract, account) => {
   return sousChefContract.methods
     .deposit()
     .send({ from: account, value: new BigNumber(0) })
