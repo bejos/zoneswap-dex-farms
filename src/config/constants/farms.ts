@@ -16,7 +16,7 @@ const farms: FarmConfig[] = [
       56: '0x1a639e150d2210a4be4a5f0857a9151b241e7ae4',
     },
     quoteTokenSymbol: QuoteToken.WCORE,
-    quoteTokenAdresses: contracts.wcore,
+    quoteTokenAdresses: contracts.busd,
   },
   {
     pid: 1,
