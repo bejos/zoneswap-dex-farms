@@ -5,18 +5,18 @@ const farms: FarmConfig[] = [
   {
     pid: 0,
     risk: 5,
-    lpSymbol: 'EGG-BUSD LP',
+    lpSymbol: 'BOW-WCORE LP',
     lpAddresses: {
       97: '',
-      56: '0x19e7cbecdd23a16dfa5573df54d98f7caae03019',
+      56: '0xBb8502132C87Ee31bE0E2bC1CB8CC69374488261',
     },
     tokenSymbol: 'EGG',
     tokenAddresses: {
       97: '',
-      56: '0xf952fc3ca7325cc27d15885d37117676d25bfda6',
+      56: '0x1a639e150d2210a4be4a5f0857a9151b241e7ae4',
     },
-    quoteTokenSymbol: QuoteToken.BUSD,
-    quoteTokenAdresses: contracts.busd,
+    quoteTokenSymbol: QuoteToken.WCORE,
+    quoteTokenAdresses: contracts.wcore,
   },
   {
     pid: 1,
