@@ -2,8 +2,6 @@ import React from 'react'
 import { ModalProvider } from '@pancakeswap-libs/uikit'
 
 // import core, { UseWalletProvider } from '@binance-chain/core-use-wallet'
-import * as core from '@binance-chain/bsc-use-wallet'
-// import bsc, { UseWalletProvider } from '@binance-chain/bsc-use-wallet'
 import * as bsc from '@binance-chain/bsc-use-wallet'
 import { Provider } from 'react-redux'
 import getRpcUrl from 'utils/getRpcUrl'
