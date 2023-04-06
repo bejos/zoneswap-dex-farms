@@ -6,7 +6,7 @@ export const PANCAKE_RABBITS_ADDRESS = '0xDf7952B35f24aCF7fC0487D01c8d5690a60DBa
 const Nfts: Nft[] = [
   {
     name: 'Swapsies',
-    description: 'These bunnies love nothing more than swapping pancakes. Especially on BSC.',
+    description: 'These bunnies love nothing more than swapping pancakes. Especially on CORE.',
     originalImage: 'https://gateway.pinata.cloud/ipfs/QmXdHqg3nywpNJWDevJQPtkz93vpfoHcZWQovFz2nmtPf5/swapsies.png',
     previewImage: 'swapsies-preview.png',
     blurImage: 'swapsies-blur.png',

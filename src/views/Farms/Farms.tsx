@@ -8,7 +8,7 @@ import { Image, Heading } from '@pancakeswap-libs/uikit'
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from 'config'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
-import { useFarms, usePriceBnbBusd, usePriceCakeBusd } from 'state/hooks'
+import { useFarms, usePriceCoreBusd, usePriceCakeBusd } from 'state/hooks'
 import useRefresh from 'hooks/useRefresh'
 import { fetchFarmUserDataAsync } from 'state/actions'
 import { QuoteToken } from 'config/constants/types'
@@ -26,7 +26,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   const TranslateString = useI18n()
   const farmsLP = useFarms()
   const cakePrice = usePriceCakeBusd()
-  const bnbPrice = usePriceBnbBusd()
+  const corePrice = usePriceCoreBusd()
   const { account, ethereum }: { account: string; ethereum: provider } = useWallet()
   const {tokenMode} = farmsProps;
 
@@ -52,7 +52,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
   // to retrieve assets prices against USD
   const farmsList = useCallback(
     (farmsToDisplay, removed: boolean) => {
-      // const cakePriceVsBNB = new BigNumber(farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote || 0)
+      // const cakePriceVsCORE = new BigNumber(farmsLP.find((farm) => farm.pid === CAKE_POOL_PID)?.tokenPriceVsQuote || 0)
       const farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map((farm) => {
         // if (!farm.tokenAmount || !farm.lpTotalInQuoteToken || !farm.lpTotalInQuoteToken) {
         //   return farm
@@ -64,8 +64,8 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
 
         let totalValue = new BigNumber(farm.lpTotalInQuoteToken || 0);
 
-        if (farm.quoteTokenSymbol === QuoteToken.BNB) {
-          totalValue = totalValue.times(bnbPrice);
+        if (farm.quoteTokenSymbol === QuoteToken.CORE) {
+          totalValue = totalValue.times(corePrice);
         }
 
         if(totalValue.comparedTo(0) > 0){
@@ -79,14 +79,14 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
           key={farm.pid}
           farm={farm}
           removed={removed}
-          bnbPrice={bnbPrice}
+          corePrice={corePrice}
           cakePrice={cakePrice}
           ethereum={ethereum}
           account={account}
         />
       ))
     },
-    [bnbPrice, account, cakePrice, ethereum],
+    [corePrice, account, cakePrice, ethereum],
   )
 
   return (

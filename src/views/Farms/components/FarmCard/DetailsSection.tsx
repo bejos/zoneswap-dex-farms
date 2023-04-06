@@ -7,7 +7,7 @@ import { Address } from 'config/constants/types'
 
 export interface ExpandableSectionProps {
   isTokenOnly?: boolean
-  bscScanAddress?: string
+  coreScanAddress?: string
   removed?: boolean
   totalValueFormated?: string
   lpLabel?: string
@@ -37,7 +37,7 @@ const StyledLinkExternal = styled(LinkExternal)`
 
 const DetailsSection: React.FC<ExpandableSectionProps> = ({
   isTokenOnly,
-  bscScanAddress,
+  coreScanAddress,
   removed,
   totalValueFormated,
   lpLabel,
@@ -68,8 +68,8 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
         </Flex>
       )}
       <Flex justifyContent="flex-start">
-        <Link external href={bscScanAddress} bold={false}>
-          {TranslateString(356, 'View on BscScan')}
+        <Link external href={coreScanAddress} bold={false}>
+          {TranslateString(356, 'View on Scan Coredao')}
         </Link>
       </Flex>
     </Wrapper>

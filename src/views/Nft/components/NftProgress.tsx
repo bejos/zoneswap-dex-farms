@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Card, CardBody, Heading, OpenNewIcon, Text, Link as UIKitLink, Progress } from '@pancakeswap-libs/uikit'
-import { BSC_BLOCK_TIME } from 'config'
+import { CORE_BLOCK_TIME } from 'config'
 import useI18n from 'hooks/useI18n'
 import useBlock from 'hooks/useBlock'
 import getTimePeriods from 'utils/getTimePeriods'
@@ -40,7 +40,7 @@ const NftProgress = () => {
   } = useContext(NftProviderContext)
   const TranslateString = useI18n()
   const currentBlock = useBlock()
-  const secondsRemaining = (endBlockNumber - currentBlock) * BSC_BLOCK_TIME
+  const secondsRemaining = (endBlockNumber - currentBlock) * CORE_BLOCK_TIME
   const timeLeft = formatTimePeriod(getTimePeriods(secondsRemaining), ['seconds'])
   const totalBlocks = endBlockNumber - startBlockNumber
   const progress = currentBlock > startBlockNumber ? ((currentBlock - startBlockNumber) / totalBlocks) * 100 : 5
@@ -72,7 +72,7 @@ const NftProgress = () => {
             {!isInitialized ? (
               '...'
             ) : (
-              <Link href={`https://bscscan.com/block/${endBlockNumber}`} target="_blank" rel="noreferrer noopener">
+              <Link href={`https://scan.coredao.org/block/${endBlockNumber}`} target="_blank" rel="noreferrer noopener">
                 {`Block ${endBlockNumber}`}
                 <OpenNewIcon color="primary" ml="2px" />
               </Link>
