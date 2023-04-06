@@ -10,7 +10,7 @@ const farms: FarmConfig[] = [
       97: '',
       56: '0xBb8502132C87Ee31bE0E2bC1CB8CC69374488261',
     },
-    tokenSymbol: 'EGG',
+    tokenSymbol: 'BOW',
     tokenAddresses: {
       97: '',
       56: '0x1a639e150d2210a4be4a5f0857a9151b241e7ae4',
