@@ -1,20 +1,18 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
-import { Modal, Text, LinkExternal, Flex } from '@pancakeswap-libs/uikit'
-import useI18n from 'hooks/useI18n'
-import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
-import { calculateCakeEarnedPerThousandDollars, apyModalRoi } from 'utils/compoundApyHelpers'
-import { Address } from 'config/constants/types'
+import { Modal, Text, LinkExternal, Flex } from 'archerswap-uikit'
+import { useTranslation } from 'contexts/Localization'
+import { calculateBowEarnedPerThousandDollars, apyModalRoi } from 'utils/compoundApyHelpers'
 
 interface ApyCalculatorModalProps {
   onDismiss?: () => void
   lpLabel?: string
-  cakePrice?: BigNumber
-  apy?: BigNumber
-  quoteTokenAdresses?: Address
-  quoteTokenSymbol?: string
-  tokenAddresses: Address
+  bowPrice?: BigNumber
+  apy?: number
+  farmApr?: number
+  feeApr?: number
+  addLiquidityUrl?: string
 }
 
 const Grid = styled.div`
@@ -36,38 +34,44 @@ const Description = styled(Text)`
 const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
   onDismiss,
   lpLabel,
-  quoteTokenAdresses,
-  quoteTokenSymbol,
-  tokenAddresses,
-  cakePrice,
+  bowPrice,
   apy,
+  farmApr,
+  feeApr,
+  addLiquidityUrl,
 }) => {
-  const TranslateString = useI18n()
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAdresses, quoteTokenSymbol, tokenAddresses })
-  const farmApy = apy.times(new BigNumber(100)).toNumber()
-  const oneThousandDollarsWorthOfCake = 1000 / cakePrice.toNumber()
+  const { t } = useTranslation()
+  const oneThousandDollarsWorthOfCake = 1000 / bowPrice.toNumber()
 
-  const cakeEarnedPerThousand1D = calculateCakeEarnedPerThousandDollars({ numberOfDays: 1, farmApy, cakePrice })
-  const cakeEarnedPerThousand7D = calculateCakeEarnedPerThousandDollars({ numberOfDays: 7, farmApy, cakePrice })
-  const cakeEarnedPerThousand30D = calculateCakeEarnedPerThousandDollars({ numberOfDays: 30, farmApy, cakePrice })
-  const cakeEarnedPerThousand365D = calculateCakeEarnedPerThousandDollars({ numberOfDays: 365, farmApy, cakePrice })
+  const bowEarnedPerThousand1D = calculateBowEarnedPerThousandDollars({ numberOfDays: 1, farmApy: apy, bowPrice })
+  const bowEarnedPerThousand7D = calculateBowEarnedPerThousandDollars({ numberOfDays: 7, farmApy: apy, bowPrice })
+  const bowEarnedPerThousand30D = calculateBowEarnedPerThousandDollars({
+    numberOfDays: 30,
+    farmApy: apy,
+    bowPrice,
+  })
+  const bowEarnedPerThousand365D = calculateBowEarnedPerThousandDollars({
+    numberOfDays: 365,
+    farmApy: apy,
+    bowPrice,
+  })
 
   return (
     <Modal title="ROI" onDismiss={onDismiss}>
       <Grid>
         <GridItem>
           <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase" mb="20px">
-            {TranslateString(999, 'Timeframe')}
+            {t('Timeframe')}
           </Text>
         </GridItem>
         <GridItem>
           <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase" mb="20px">
-            {TranslateString(999, 'ROI')}
+            {t('ROI')}
           </Text>
         </GridItem>
         <GridItem>
-          <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase" mb="20px">
-            {TranslateString(999, 'EGG per $1000')}
+          <Text fontSize="12px" bold color="textSubtle" mb="20px">
+            {t('BOW per $1000')}
           </Text>
         </GridItem>
         {/* 1 day row */}
@@ -76,11 +80,11 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         <GridItem>
           <Text>
-            {apyModalRoi({ amountEarned: cakeEarnedPerThousand1D, amountInvested: oneThousandDollarsWorthOfCake })}%
+            {apyModalRoi({ amountEarned: bowEarnedPerThousand1D, amountInvested: oneThousandDollarsWorthOfCake })}%
           </Text>
         </GridItem>
         <GridItem>
-          <Text>{cakeEarnedPerThousand1D}</Text>
+          <Text>{bowEarnedPerThousand1D}</Text>
         </GridItem>
         {/* 7 day row */}
         <GridItem>
@@ -88,11 +92,11 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         <GridItem>
           <Text>
-            {apyModalRoi({ amountEarned: cakeEarnedPerThousand7D, amountInvested: oneThousandDollarsWorthOfCake })}%
+            {apyModalRoi({ amountEarned: bowEarnedPerThousand7D, amountInvested: oneThousandDollarsWorthOfCake })}%
           </Text>
         </GridItem>
         <GridItem>
-          <Text>{cakeEarnedPerThousand7D}</Text>
+          <Text>{bowEarnedPerThousand7D}</Text>
         </GridItem>
         {/* 30 day row */}
         <GridItem>
@@ -100,11 +104,11 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         <GridItem>
           <Text>
-            {apyModalRoi({ amountEarned: cakeEarnedPerThousand30D, amountInvested: oneThousandDollarsWorthOfCake })}%
+            {apyModalRoi({ amountEarned: bowEarnedPerThousand30D, amountInvested: oneThousandDollarsWorthOfCake })}%
           </Text>
         </GridItem>
         <GridItem>
-          <Text>{cakeEarnedPerThousand30D}</Text>
+          <Text>{bowEarnedPerThousand30D}</Text>
         </GridItem>
         {/* 365 day / APY row */}
         <GridItem>
@@ -112,23 +116,36 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         <GridItem>
           <Text>
-            {apyModalRoi({ amountEarned: cakeEarnedPerThousand365D, amountInvested: oneThousandDollarsWorthOfCake })}%
+            {apyModalRoi({ amountEarned: bowEarnedPerThousand365D, amountInvested: oneThousandDollarsWorthOfCake })}%
           </Text>
         </GridItem>
         <GridItem>
-          <Text>{cakeEarnedPerThousand365D}</Text>
+          <Text>{bowEarnedPerThousand365D}</Text>
         </GridItem>
       </Grid>
       <Description fontSize="12px" color="textSubtle">
-        {TranslateString(
-          999,
+        {t(
           'Calculated based on current rates. Compounding once daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
         )}
       </Description>
+      <Flex justifyContent="space-between" mb="10px">
+        <Text fontSize="14px" bold color="textSubtle">
+          {t('Farm APR')}
+        </Text>
+        <Text fontSize="14px" color="textSubtle">
+          {farmApr && farmApr.toFixed(2)}%
+        </Text>
+      </Flex>
+      <Flex justifyContent="space-between" mb="10px">
+        <Text fontSize="14px" bold color="textSubtle">
+          {t('LP Fee APR')}
+        </Text>
+        <Text fontSize="14px" color="textSubtle">
+          {feeApr && feeApr.toFixed(2)}%
+        </Text>
+      </Flex>
       <Flex justifyContent="center">
-        <LinkExternal href={`https://exchange.pancakeswap.finance/#/add/${liquidityUrlPathParts}`}>
-          {TranslateString(999, 'Get')} {lpLabel}
-        </LinkExternal>
+        <LinkExternal href={addLiquidityUrl}>{t('Get %symbol%', { symbol: lpLabel })}</LinkExternal>
       </Flex>
     </Modal>
   )

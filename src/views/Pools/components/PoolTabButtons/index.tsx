@@ -1,21 +1,29 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useRouteMatch, Link } from 'react-router-dom'
-import { ButtonMenu, ButtonMenuItem } from '@pancakeswap-libs/uikit'
-import useI18n from 'hooks/useI18n'
+import { ButtonMenu, ButtonMenuItem, Toggle, Text } from 'archerswap-uikit'
+import { useTranslation } from 'contexts/Localization'
 
-const PoolTabButtons = () => {
+const PoolTabButtons = ({ stackedOnly, setStackedOnly }) => {
   const { url, isExact } = useRouteMatch()
-  const TranslateString = useI18n()
+  const { t } = useTranslation()
 
   return (
     <Wrapper>
-      <ButtonMenu activeIndex={!isExact ? 1 : 0} size="sm" variant="subtle">
-        <ButtonMenuItem as={Link} to={`${url}`}>
-          {TranslateString(999, 'Active')}
+      <ToggleWrapper>
+        <Toggle checked={stackedOnly} onChange={() => setStackedOnly(!stackedOnly)} />
+        <Text> {t('Staked only')}</Text>
+      </ToggleWrapper>
+      <ButtonMenu activeIndex={isExact ? 0 : 1} scale="sm" variant="primary">
+        <ButtonMenuItem as={Link} to={`${url}`} style={{ borderRadius: '30px', width: '125px' }}>
+          {t('Live')}
         </ButtonMenuItem>
-        <ButtonMenuItem as={Link} to={`${url}/history`}>
-          {TranslateString(999, 'Inactive')}
+        <ButtonMenuItem
+          as={Link}
+          to={`${url}/history`}
+          style={{ borderRadius: '30px', width: '125px', marginLeft: 0, fontWeight: 500 }}
+        >
+          {t('Finished')}
         </ButtonMenuItem>
       </ButtonMenu>
     </Wrapper>
@@ -29,4 +37,15 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 32px;
+`
+
+const ToggleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 32px;
+
+  ${Text} {
+    margin-left: 8px;
+  }
 `

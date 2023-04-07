@@ -1,44 +1,78 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Tag, Flex, Heading, Image } from '@pancakeswap-libs/uikit'
-import { CommunityTag, CoreTag, NoFeeTag, RiskTag } from 'components/Tags'
+import { Tag, Flex, Heading } from 'archerswap-uikit'
+import { CommunityTag, CoreTag } from 'components/Tags'
 
 export interface ExpandableSectionProps {
   lpLabel?: string
   multiplier?: string
-  risk?: number
-  depositFee?: number
+  isCommunityFarm?: boolean
   farmImage?: string
   tokenSymbol?: string
 }
 
 const Wrapper = styled(Flex)`
   svg {
-    margin-right: 0.25rem;
+    margin-right: 4px;
   }
 `
 
 const MultiplierTag = styled(Tag)`
   margin-left: 4px;
+  color: #199e46;
+  background-color: #e8fdf0;
+`
+
+const IconImage = styled.div`
+  display: flex;
+  margin-right: 5px;
+  .first {
+    position: relative;
+    display: block;
+    border-radius: 50%;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+
+    ${({ theme }) => theme.mediaQueries.sm} {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  .last {
+    z-index: 3;
+    display: block;
+    margin-left: -10px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+
+    ${({ theme }) => theme.mediaQueries.sm} {
+      width: 40px;
+      height: 40px;
+      margin-left: -20px;
+    }
+  }
 `
 
 const CardHeading: React.FC<ExpandableSectionProps> = ({
   lpLabel,
   multiplier,
-  risk,
+  isCommunityFarm,
   farmImage,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   tokenSymbol,
-  depositFee,
 }) => {
   return (
-    <Wrapper justifyContent="space-between" alignItems="center" mb="12px">
-      <Image src={`/images/farms/${farmImage}.png`} alt={tokenSymbol} width={64} height={64} />
+    <Wrapper px={24} justifyContent="space-between" alignItems="center" mb="12px">
+      <IconImage>
+        <img className="first" src={`/images/tokens/${farmImage.split('-')[0].toLocaleLowerCase()}.png`} alt="icon" />
+        <img className="last" src={`/images/tokens/${farmImage.split('-')[1].toLocaleLowerCase()}.png`} alt="icon" />
+      </IconImage>
       <Flex flexDirection="column" alignItems="flex-end">
-        <Heading mb="4px">{lpLabel}</Heading>
+        <Heading mb="4px">{lpLabel.split(' ')[0]}</Heading>
         <Flex justifyContent="center">
-          {depositFee === 0 ? <NoFeeTag /> : null}
-          {/* {isCommunityFarm ? <CommunityTag /> : <CoreTag />} */}
-          {/* <RiskTag risk={risk} /> */}
+          {isCommunityFarm ? <CommunityTag /> : <CoreTag />}
           <MultiplierTag variant="secondary">{multiplier}</MultiplierTag>
         </Flex>
       </Flex>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import CountUp from 'react-countup'
 import styled from 'styled-components'
-import { Text } from '@pancakeswap-libs/uikit'
+import { Text } from 'archerswap-uikit'
 
 interface TextProps {
   isDisabled?: boolean
@@ -35,7 +35,7 @@ const Balance: React.FC<BalanceProps> = ({ value, fontSize, color, decimals, isD
 }
 
 Balance.defaultProps = {
-  fontSize: '32px',
+  fontSize: '24px',
   isDisabled: false,
   color: 'text',
   decimals: 3,

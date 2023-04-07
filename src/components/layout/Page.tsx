@@ -5,6 +5,7 @@ const Page = styled(Container)`
   min-height: calc(100vh - 64px);
   padding-top: 16px;
   padding-bottom: 16px;
+  max-width: 1220px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
     padding-top: 24px;
@@ -12,7 +13,7 @@ const Page = styled(Container)`
   }
 
   ${({ theme }) => theme.mediaQueries.lg} {
-    padding-top: 32px;
+    padding-top: 12px;
     padding-bottom: 32px;
   }
 `

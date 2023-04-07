@@ -81,10 +81,10 @@ interface StyledButtonProps {
 
 const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;
-  background: ${(props) => (!props.disabled ? props.theme.card.background : `#ddd`)};
+  background: ${(props) => props.theme.card.background};
   border: 0;
-  border-radius: 12px;
-  color: ${(props) => (!props.disabled ? `#32cad7` : `#acaaaf`)};
+  border-radius: 8px;
+  color: ${(props) => (!props.disabled ? `#EAAA08` : `#acaaaf`)};
   cursor: pointer;
   display: flex;
   font-size: ${(props) => props.fontSize}px;
@@ -96,7 +96,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   padding-right: ${(props) => props.padding}px;
   pointer-events: ${(props) => (!props.disabled ? undefined : 'none')};
   width: 100%;
-  border: 2px solid ${(props) => (!props.disabled ? `#33cbd7` : `#eee`)};
+  border: 2px solid ${(props) => (!props.disabled ? `#EAAA08` : `#eee`)};
   width: 100px;
   height: 30px;
   font-size: 14px;

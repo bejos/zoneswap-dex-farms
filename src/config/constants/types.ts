@@ -1,8 +1,11 @@
-export type IfoStatus = 'coming_soon' | 'live' | 'finished'
+import { TranslatableText } from 'state/types'
+
+export type IfoStatus = 'idle' | 'coming_soon' | 'live' | 'finished'
 
 export interface Ifo {
   id: string
   isActive: boolean
+  isPrivate: boolean
   address: string
   name: string
   subTitle?: string
@@ -15,42 +18,60 @@ export interface Ifo {
   projectSiteUrl: string
   currency: string
   currencyAddress: string
+  currencyDecimals: number
   tokenDecimals: number
-  releaseBlockNumber: number
-}
-
-export enum QuoteToken {
-  'BNB' = 'BNB',
-  'CAKE' = 'CAKE',
-  'SYRUP' = 'SYRUP',
-  'BUSD' = 'BUSD',
-  'TWT' = 'TWT',
-  'UST' = 'UST',
+  tokenSymbol: string
+  releaseTime: number
+  campaignId?: string
+  maxDepositAmount?: number
 }
 
 export enum PoolCategory {
   'COMMUNITY' = 'Community',
   'CORE' = 'Core',
-  'BINANCE' = 'Binance', // Pools using native BNB behave differently than pools using a token
 }
 
 export interface Address {
-  97?: string
-  56: string
+  1115?: string
+  1116: string
+}
+
+export interface Token {
+  symbol: string
+  address?: Address
+  decimals?: number
+  projectLink?: string
 }
 
 export interface FarmConfig {
   pid: number
   lpSymbol: string
   lpAddresses: Address
-  tokenSymbol: string
-  tokenAddresses: Address
-  quoteTokenSymbol: QuoteToken
-  quoteTokenAdresses: Address
+  token: Token
+  quoteToken: Token
   multiplier?: string
-  isTokenOnly?: boolean
   isCommunity?: boolean
-  risk: number
+  dual?: {
+    rewardPerBlock: number
+    earnLabel: string
+    endBlock: number
+  }
+}
+
+export interface VaultConfig {
+  pid: number
+  lpSymbol: string
+  lpAddresses: Address
+  vaultAddresses: Address
+  strategyAddresses: Address
+  stratxAddress?: Address
+  token: Token
+  quoteToken?: Token
+  ftoken?: Token
+  provider?: string
+  multiplier?: string
+  isCommunity?: boolean
+  isSingle?: boolean
   dual?: {
     rewardPerBlock: number
     earnLabel: string
@@ -60,27 +81,65 @@ export interface FarmConfig {
 
 export interface PoolConfig {
   sousId: number
-  image?: string
-  tokenName: string
-  stakingTokenName: QuoteToken
+  earningToken: Token
+  stakingToken: Token
   stakingLimit?: number
-  stakingTokenAddress?: string
   contractAddress: Address
   poolCategory: PoolCategory
-  projectLink: string
-  tokenPerBlock: string
+  tokenPerSecond: string
   sortOrder?: number
   harvest?: boolean
   isFinished?: boolean
-  tokenDecimals: number
+  depositFee?: number
+}
+
+export type Images = {
+  lg: string
+  md: string
+  sm: string
+  ipfs?: string
+}
+
+export type NftImages = {
+  blur?: string
+} & Images
+
+export type NftVideo = {
+  webm: string
+  mp4: string
 }
 
 export type Nft = {
   name: string
   description: string
-  originalImage: string
-  previewImage: string
-  blurImage: string
+  images: NftImages
   sortOrder: number
   bunnyId: number
+  video?: NftVideo
+}
+
+export type TeamImages = {
+  alt: string
+} & Images
+
+export type Team = {
+  id: number
+  name: string
+  description: string
+  isJoinable?: boolean
+  users: number
+  points: number
+  images: TeamImages
+  background: string
+  textColor: string
+}
+
+export type CampaignType = 'ifo'
+
+export type Campaign = {
+  id: string
+  type: CampaignType
+  title?: TranslatableText
+  description?: TranslatableText
+  badge?: string
 }

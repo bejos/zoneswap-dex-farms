@@ -1,25 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useRouteMatch, Link } from 'react-router-dom'
-import { ButtonMenu, ButtonMenuItem, Text, Toggle } from '@pancakeswap-libs/uikit'
-import useI18n from 'hooks/useI18n'
+import { ButtonMenu, ButtonMenuItem } from 'archerswap-uikit'
+import { useTranslation } from 'contexts/Localization'
 
-const FarmTabButtons = ({ stakedOnly, setStakedOnly }) => {
+const FarmTabButtons = () => {
   const { url, isExact } = useRouteMatch()
-  const TranslateString = useI18n()
+  const { t } = useTranslation()
 
   return (
     <Wrapper>
-      <ToggleWrapper>
-        <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} />
-        <Text> {TranslateString(699, 'Staked only')}</Text>
-      </ToggleWrapper>
-      <ButtonMenu activeIndex={isExact ? 0 : 1} size="sm" variant="subtle">
-        <ButtonMenuItem as={Link} to={`${url}`}>
-          {TranslateString(698, 'Active')}
+      <ButtonMenu activeIndex={isExact ? 0 : 1} scale="sm" variant="primary">
+        <ButtonMenuItem as={Link} to={`${url}`} style={{ borderRadius: '30px', width: '125px', fontWeight: 500 }}>
+          {t('Live')}
         </ButtonMenuItem>
-        <ButtonMenuItem as={Link} to={`${url}/history`}>
-          {TranslateString(700, 'Inactive')}
+        <ButtonMenuItem
+          as={Link}
+          to={`${url}/history`}
+          style={{ borderRadius: '30px', width: '125px', marginLeft: 0, fontWeight: 500 }}
+        >
+          {t('Finished')}
         </ButtonMenuItem>
       </ButtonMenu>
     </Wrapper>
@@ -32,16 +32,13 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 32px;
-`
 
-const ToggleWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 32px;
+  a {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 
-  ${Text} {
-    margin-left: 8px;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    margin-left: 16px;
   }
 `

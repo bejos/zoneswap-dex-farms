@@ -1,34 +1,34 @@
 import React from 'react'
-import { Tag, VerifiedIcon, CommunityIcon, BinanceIcon } from '@pancakeswap-libs/uikit'
+import { Tag, VerifiedIcon, CommunityIcon, BinanceIcon } from 'archerswap-uikit'
+import { useTranslation } from 'contexts/Localization'
+import styled from 'styled-components'
 
-const NoFeeTag = () => (
-  <Tag variant="success" outline startIcon={<VerifiedIcon />}>
-    No Fees
+const StyledTag = styled(Tag)`
+  font-weight: 500;
+`
+
+const CoreTag = (props) => {
+  const { t } = useTranslation()
+  return (
+    <StyledTag variant="text" outline startIcon={<VerifiedIcon />} {...props}>
+      {t('Core')}
+    </StyledTag>
+  )
+}
+
+const CommunityTag = (props) => {
+  const { t } = useTranslation()
+  return (
+    <Tag variant="text" outline startIcon={<CommunityIcon />} {...props}>
+      {t('Community')}
+    </Tag>
+  )
+}
+
+const DualTag = (props) => (
+  <Tag variant="text" outline {...props}>
+    Dual
   </Tag>
 )
 
-const RiskTag = ({ risk }) => (
-  <Tag variant={risk >= 3 ? 'failure' : 'success'} outline startIcon={<VerifiedIcon />}>
-    Risk {risk}
-  </Tag>
-)
-
-const CoreTag = () => (
-  <Tag variant='secondary' outline startIcon={<VerifiedIcon />}>
-    Core
-  </Tag>
-)
-
-const CommunityTag = () => (
-  <Tag variant='textSubtle' outline startIcon={<CommunityIcon />}>
-    Community
-  </Tag>
-)
-
-const BinanceTag = () => (
-  <Tag variant='binance' outline startIcon={<BinanceIcon />}>
-    Binance
-  </Tag>
-)
-
-export { CoreTag, CommunityTag, BinanceTag, RiskTag, NoFeeTag }
+export { CoreTag, CommunityTag, DualTag }

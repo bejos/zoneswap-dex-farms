@@ -1,23 +1,19 @@
 import React from 'react'
-import useI18n from 'hooks/useI18n'
+import { useTranslation } from 'contexts/Localization'
 import styled from 'styled-components'
-import { Text, Flex, Link, LinkExternal } from '@pancakeswap-libs/uikit'
-import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
-import { Address } from 'config/constants/types'
+import { Text, Flex, Link, LinkExternal } from 'archerswap-uikit'
 
 export interface ExpandableSectionProps {
-  isTokenOnly?: boolean
-  bscScanAddress?: string
+  coreScanAddress?: string
   removed?: boolean
   totalValueFormated?: string
   lpLabel?: string
-  quoteTokenAdresses?: Address
-  quoteTokenSymbol?: string
-  tokenAddresses: Address
+  addLiquidityUrl?: string
 }
 
 const Wrapper = styled.div`
-  margin-top: 24px;
+  margin-top: 16px;
+  padding: 0 24px;
 `
 
 const StyledLinkExternal = styled(LinkExternal)`
@@ -36,40 +32,29 @@ const StyledLinkExternal = styled(LinkExternal)`
 `
 
 const DetailsSection: React.FC<ExpandableSectionProps> = ({
-  isTokenOnly,
-  bscScanAddress,
+  coreScanAddress,
   removed,
   totalValueFormated,
   lpLabel,
-  quoteTokenAdresses,
-  quoteTokenSymbol,
-  tokenAddresses,
+  addLiquidityUrl,
 }) => {
-  const TranslateString = useI18n()
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAdresses, quoteTokenSymbol, tokenAddresses })
+  const { t } = useTranslation()
 
   return (
     <Wrapper>
-      <Flex justifyContent="space-between">
-        <Text>{TranslateString(316, 'Stake')}:</Text>
-        <StyledLinkExternal href={
-          isTokenOnly ?
-            `https://exchange.goosedefi.com/#/swap/${tokenAddresses[process.env.REACT_APP_CHAIN_ID]}`
-            :
-          `https://exchange.goosedefi.com/#/add/${liquidityUrlPathParts}`
-        }>
-          {lpLabel}
-        </StyledLinkExternal>
+      <Flex justifyContent="space-between" mb={10}>
+        <Text color="textSubtle">{t('Stake')}:</Text>
+        <StyledLinkExternal href={addLiquidityUrl}>{lpLabel}</StyledLinkExternal>
       </Flex>
       {!removed && (
-        <Flex justifyContent="space-between">
-          <Text>{TranslateString(23, 'Total Liquidity')}:</Text>
+        <Flex justifyContent="space-between" mb={16}>
+          <Text color="textSubtle">{t('Total Liquidity')}:</Text>
           <Text>{totalValueFormated}</Text>
         </Flex>
       )}
       <Flex justifyContent="flex-start">
-        <Link external href={bscScanAddress} bold={false}>
-          {TranslateString(356, 'View on BscScan')}
+        <Link external href={coreScanAddress} bold={false}>
+          {t('View on Core Scan')}
         </Link>
       </Flex>
     </Wrapper>

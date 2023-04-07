@@ -1,22 +1,70 @@
 import addresses from 'config/constants/contracts'
+import tokens from 'config/constants/tokens'
+import { Address } from 'config/constants/types'
 
-const chainId = process.env.REACT_APP_CHAIN_ID
+export const getAddress = (address: Address): string => {
+  const mainNetChainId = 1116
+  const chainId = process.env.REACT_APP_CHAIN_ID
+  return address[chainId] ? address[chainId] : address[mainNetChainId]
+}
 
-export const getCakeAddress = () => {
-  return addresses.cake[chainId]
+export const getBowAddress = () => {
+  return getAddress(tokens.bow.address)
+}
+export const getMultiAddress = () => {
+  return getAddress(addresses.multi)
 }
 export const getMasterChefAddress = () => {
-  return addresses.masterChef[chainId]
+  return getAddress(addresses.masterChef)
 }
 export const getMulticallAddress = () => {
-  return addresses.mulltiCall[chainId]
+  return getAddress(addresses.mulltiCall)
 }
-export const getWbnbAddress = () => {
-  return addresses.wbnb[chainId]
+export const getWcoreAddress = () => {
+  return getAddress(tokens.wcore.address)
 }
 export const getLotteryAddress = () => {
-  return addresses.lottery[chainId]
+  return getAddress(addresses.lottery)
 }
 export const getLotteryTicketAddress = () => {
-  return addresses.lotteryNFT[chainId]
+  return getAddress(addresses.lotteryNFT)
+}
+export const getPancakeProfileAddress = () => {
+  return getAddress(addresses.pancakeProfile)
+}
+export const getPancakeRabbitsAddress = () => {
+  return getAddress(addresses.pancakeRabbits)
+}
+export const getBunnyFactoryAddress = () => {
+  return getAddress(addresses.bunnyFactory)
+}
+export const getClaimRefundAddress = () => {
+  return getAddress(addresses.claimRefund)
+}
+export const getPointCenterIfoAddress = () => {
+  return getAddress(addresses.pointCenterIfo)
+}
+export const getBunnySpecialAddress = () => {
+  return getAddress(addresses.bunnySpecial)
+}
+export const getXbowAddress = () => {
+  return getAddress(addresses.xbow)
+}
+export const getFactoryAddress = () => {
+  return getAddress(addresses.factory)
+}
+export const getNftMarketplaceAddress = () => {
+  return getAddress(addresses.nftMarketplace)
+}
+export const getHunterAddress = () => {
+  return getAddress(addresses.hunter)
+}
+export const getTrackerAddress = () => {
+  return getAddress(addresses.tracker)
+}
+export const getHunterCoreLPAddress = () => {
+  return getAddress(addresses.hunterCoreLP)
+}
+export const getKyudoNftAddress = () => {
+  return getAddress(addresses.kyudoNft)
 }

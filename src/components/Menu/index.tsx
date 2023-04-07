@@ -1,31 +1,40 @@
-import React, { useContext } from 'react'
-import { useWallet } from '@binance-chain/bsc-use-wallet'
-import { allLanguages } from 'config/localisation/languageCodes'
-import { LanguageContext } from 'contexts/Localisation/languageContext'
+import React from 'react'
+import { Menu as UikitMenu } from 'archerswap-uikit'
+import { useWeb3React } from '@web3-react/core'
+import { languageList } from 'config/localization/languages'
+import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
-import { usePriceCakeBusd } from 'state/hooks'
-import { Menu as UikitMenu } from '@pancakeswap-libs/uikit'
+import useAuth from 'hooks/useAuth'
+import { usePriceBowUsd, useProfile } from 'state/hooks'
 import config from './config'
 
 const Menu = (props) => {
-  const { account, connect, reset } = useWallet()
-  const { selectedLanguage, setSelectedLanguage } = useContext(LanguageContext)
+  const { account } = useWeb3React()
+  const { login, logout } = useAuth()
   const { isDark, toggleTheme } = useTheme()
-  const cakePriceUsd = usePriceCakeBusd()
+  const bowPriceUsd = usePriceBowUsd()
+  const { profile } = useProfile()
+  const { currentLanguage, setLanguage, t } = useTranslation()
 
   return (
     <UikitMenu
       account={account}
-      login={connect}
-      logout={reset}
+      login={login}
+      logout={logout}
       isDark={isDark}
       toggleTheme={toggleTheme}
-      currentLang={selectedLanguage && selectedLanguage.code}
-      langs={allLanguages}
-      setLang={setSelectedLanguage}
-      cakePriceUsd={cakePriceUsd.toNumber()}
-      links={config}
-      priceLink="https://poocoin.app/tokens/0x81e032c97a5cbbf06851412e2b1adcb2b51de9d1"
+      currentLang={currentLanguage.code}
+      langs={languageList}
+      setLang={setLanguage}
+      cakePriceUsd={bowPriceUsd.toNumber()}
+      links={config(t)}
+      profile={{
+        username: profile?.username,
+        image: profile?.nft ? `/images/nfts/${profile.nft?.images.sm}` : undefined,
+        profileLink: '/profile',
+        noProfileLink: '/profile',
+        showPip: !profile?.username,
+      }}
       {...props}
     />
   )

@@ -1,46 +1,48 @@
-import React, { useMemo, useState, useCallback } from 'react'
-import BigNumber from 'bignumber.js'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { provider } from 'web3-core'
-import { getContract } from 'utils/erc20'
-import { Button, Flex, Text } from '@pancakeswap-libs/uikit'
-import { Farm } from 'state/types'
-import { useFarmFromPid, useFarmFromSymbol, useFarmUser } from 'state/hooks'
-import useI18n from 'hooks/useI18n'
-import UnlockButton from 'components/UnlockButton'
+import { provider as ProviderType } from 'web3-core'
+import { getAddress } from 'utils/addressHelpers'
+import { getBep20Contract } from 'utils/contractHelpers'
+import { Button, Flex, Text } from 'archerswap-uikit'
+import { FarmWithStakedValue } from 'state/types'
+import { useFarmFromSymbol, useFarmUser } from 'state/hooks'
+import { useTranslation } from 'contexts/Localization'
+import useWeb3 from 'hooks/useWeb3'
 import { useApprove } from 'hooks/useApprove'
+import UnlockButton from 'components/UnlockButton'
 import StakeAction from './StakeAction'
 import HarvestAction from './HarvestAction'
 
 const Action = styled.div`
-  padding-top: 16px;
+  padding: 16px 24px 0;
 `
-export interface FarmWithStakedValue extends Farm {
-  apy?: BigNumber
-}
+const StyledUnlockButton = styled(UnlockButton)`
+  color: #ffffff;
+  width: 100%;
+  border-radius: 7px;
+`
+const StyledButton = styled(Button)`
+  color: #ffffff;
+`
 
 interface FarmCardActionsProps {
   farm: FarmWithStakedValue
-  ethereum?: provider
+  provider?: ProviderType
   account?: string
+  addLiquidityUrl?: string
 }
 
-const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }) => {
-  const TranslateString = useI18n()
+const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidityUrl }) => {
+  const { t } = useTranslation()
   const [requestedApproval, setRequestedApproval] = useState(false)
-  const { pid, lpAddresses, tokenAddresses, isTokenOnly, depositFeeBP } = useFarmFromPid(farm.pid)
+  const { pid, lpAddresses } = useFarmFromSymbol(farm.lpSymbol)
   const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(pid)
-  const lpAddress = lpAddresses[process.env.REACT_APP_CHAIN_ID]
-  const tokenAddress = tokenAddresses[process.env.REACT_APP_CHAIN_ID];
-  const lpName = farm.lpSymbol.toUpperCase()
+  const lpAddress = getAddress(lpAddresses)
+  const lpName = farm.lpSymbol
   const isApproved = account && allowance && allowance.isGreaterThan(0)
+  const web3 = useWeb3()
 
-  const lpContract = useMemo(() => {
-    if(isTokenOnly){
-      return getContract(ethereum as provider, tokenAddress);
-    }
-    return getContract(ethereum as provider, lpAddress);
-  }, [ethereum, lpAddress, tokenAddress, isTokenOnly])
+  const lpContract = getBep20Contract(lpAddress, web3)
 
   const { onApprove } = useApprove(lpContract)
 
@@ -56,35 +58,41 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
 
   const renderApprovalOrStakeButton = () => {
     return isApproved ? (
-      <StakeAction stakedBalance={stakedBalance} tokenBalance={tokenBalance} tokenName={lpName} pid={pid} depositFeeBP={depositFeeBP} />
+      <StakeAction
+        stakedBalance={stakedBalance}
+        tokenBalance={tokenBalance}
+        tokenName={lpName}
+        pid={pid}
+        addLiquidityUrl={addLiquidityUrl}
+      />
     ) : (
-      <Button mt="8px" fullWidth disabled={requestedApproval} onClick={handleApprove}>
-        {TranslateString(999, 'Approve Contract')}
-      </Button>
+      <StyledButton mt="8px" width="100%" disabled={requestedApproval} onClick={handleApprove}>
+        {t('Approve Contract')}
+      </StyledButton>
     )
   }
 
   return (
     <Action>
       <Flex>
-        <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
+        <Text bold color="bow" fontSize="12px" pr="3px">
           {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-          EGG
+          BOW
         </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-          {TranslateString(999, 'Earned')}
+        <Text bold textTransform="uppercase" color="bow" fontSize="12px">
+          {t('Earned')}
         </Text>
       </Flex>
       <HarvestAction earnings={earnings} pid={pid} />
       <Flex>
-        <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
+        <Text bold color="bow" fontSize="12px" pr="3px">
           {lpName}
         </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-          {TranslateString(999, 'Staked')}
+        <Text bold textTransform="uppercase" color="bow" fontSize="12px">
+          {t('Staked')}
         </Text>
       </Flex>
-      {!account ? <UnlockButton mt="8px" fullWidth /> : renderApprovalOrStakeButton()}
+      {!account ? <StyledUnlockButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
     </Action>
   )
 }

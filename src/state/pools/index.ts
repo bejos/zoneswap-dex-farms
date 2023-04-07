@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import poolsConfig from 'config/constants/pools'
-import { fetchPoolsBlockLimits, fetchPoolsTotalStatking } from './fetchPools'
+import { fetchPoolsBlockLimits, fetchPoolsTotalStaking } from './fetchPools'
 import {
   fetchPoolsAllowance,
   fetchUserBalances,
@@ -44,7 +44,7 @@ export const { setPoolsPublicData, setPoolsUserData, updatePoolsUserData } = Poo
 // Thunks
 export const fetchPoolsPublicDataAsync = () => async (dispatch) => {
   const blockLimits = await fetchPoolsBlockLimits()
-  const totalStakings = await fetchPoolsTotalStatking()
+  const totalStakings = await fetchPoolsTotalStaking()
 
   const liveData = poolsConfig.map((pool) => {
     const blockLimit = blockLimits.find((entry) => entry.sousId === pool.sousId)
@@ -66,12 +66,11 @@ export const fetchPoolsUserDataAsync = (account) => async (dispatch) => {
 
   const userData = poolsConfig.map((pool) => ({
     sousId: pool.sousId,
-    allowance: allowances[pool.sousId],
-    stakingTokenBalance: stakingTokenBalances[pool.sousId],
-    stakedBalance: stakedBalances[pool.sousId],
-    pendingReward: pendingRewards[pool.sousId],
+    allowance: allowances[pool.sousId] || 0,
+    stakingTokenBalance: stakingTokenBalances[pool.sousId] || 0,
+    stakedBalance: stakedBalances[pool.sousId] || 0,
+    pendingReward: pendingRewards[pool.sousId] || 0,
   }))
-
   dispatch(setPoolsUserData(userData))
 }
 
