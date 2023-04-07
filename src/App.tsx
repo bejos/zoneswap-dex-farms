@@ -21,23 +21,12 @@ import history from './routerHistory'
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import('./views/Home'))
-const Disperse = lazy(() => import('./views/Disperse'))
-const Bridge = lazy(() => import('./views/Bridge'))
 const Farms = lazy(() => import('./views/Farms'))
-const Vaults = lazy(() => import('./views/Vaults'))
-const Lottery = lazy(() => import('./views/Lottery'))
-const Ifos = lazy(() => import('./views/Ifos'))
+// const Lottery = lazy(() => import('./views/Lottery'))
+// const Pools = lazy(() => import('./views/Pools'))
+// const Ifos = lazy(() => import('./views/Ifos'))
 const NotFound = lazy(() => import('./views/NotFound'))
-const Collectibles = lazy(() => import('./views/Collectibles'))
-const Teams = lazy(() => import('./views/Teams'))
-const Team = lazy(() => import('./views/Teams/Team'))
-const Profile = lazy(() => import('./views/Profile'))
-const Dice = lazy(() => import('./views/Dice'))
-const TradingComp = lazy(() => import('./views/TradingComp/TradingComp'))
-const Marketplace = lazy(() => import('./views/Marketplace'))
-const CollectionDetail = lazy(() => import('./views/Marketplace/CollectionDetail'))
-const NftDetail = lazy(() => import('./views/Marketplace/NftDetail'))
-const MyNfts = lazy(() => import('./views/Marketplace/MyNfts'))
+// const Nft = lazy(() => import('./views/Nft'))
 
 // This config is required for number formating
 BigNumber.config({
